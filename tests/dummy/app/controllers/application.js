@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  chartData: {
+  barChartData: {
     labels: ["Open", "In Progress", "Closed"],
     datasets: [
       {
@@ -21,5 +21,76 @@ export default Ember.Controller.extend({
     annotateDisplay: true,
     graphTitleFontSize: 18
   },
-  
+
+
+  pieChartData: [
+    {
+        value : 30,
+        color: "#D97041",
+        title : "January"
+    },
+    {
+        value : 90,
+        color: "#C7604C",
+        title : "February"
+    },
+    {
+        value : 24,
+        color: "#21323D",
+        title : "March"
+    },
+    {
+        value : 58,
+        color: "#9D9B7F",
+        title : "April"
+    },
+    {
+        value : 82,
+        color: "#7D4F6D",
+        title : "May"
+    },
+    {
+        value : 8,
+        color: "#584A5E",
+        title : "June"
+    }
+  ],
+
+  doughnutChartData: [
+    {
+        value : 30,
+        color: "#D97041",
+        title : "January"
+    },
+    {
+        value : 90,
+        color: "#C7604C",
+        title : "February",
+        expandInRadius : 0.2,
+        expandOutRadius : 0.2
+    },
+    {
+        value : 24,
+        color: "#21323D",
+        title : "March"
+    },
+    {
+        value : 58,
+        color: "#9D9B7F",
+        title : "April",
+        expandInRadius : -0.2
+    },
+    {
+        value : 82,
+        color: "#7D4F6D",
+        title : "May"
+    },
+    {
+        value : 8,
+        color: "#584A5E",
+        title : "June",
+        expandOutRadius : 0.3
+    }
+  ]
+
 });
