@@ -15,13 +15,26 @@ export default Ember.Controller.extend({
   },
 
   chartOptions: {
-    animationSteps: 30,
-    graphTitle: "Title",
-    inGraphDataShow: true,
-    annotateDisplay: true,
-    graphTitleFontSize: 18
+    graphTitle: "Titleaa",
   },
 
+  init(){
+    setInterval(() => {
+      let data = {
+        labels: ["Open", "In Progress", "Closed"],
+        datasets: [
+          {
+            fillColor: "rgba(56, 134, 184, 0.5)",
+            pointColor: "rgba(220,220,220,1)",
+            pointstrokeColor: "yellow",
+            data: [Math.round(Math.random() * 100), Math.round(Math.random() * 100), Math.round(Math.random() * 100)],
+            title: "2015"
+          }
+        ]
+      }
+      this.set('barChartData', data);
+    }, 3000)
+  },
 
   pieChartData: [
     {
