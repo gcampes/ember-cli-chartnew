@@ -11,6 +11,23 @@ export default Ember.Component.extend({
     graphTitleFontSize: 18
   },
 
+  processWidth(){
+    if(this.get('width')){
+      this.set('processedWidth', this.get('width'));
+    }
+    this.set('processedWidth', this.get('element').clientWidth);
+  },
+
+  processHeight(){
+    if(this.get('height')){
+      console.log(1);
+      this.set('processedHeight', this.get('height'));
+    }
+    console.log(this.get('element'));
+    this.get('element').style.height = this.get('element').parentNode.clientHeight + 'px';
+    this.set('processedHeight', this.get('element').clientHeight);
+  },
+
   dataDidChange: Ember.observer('data', function(){
     this.renderChart();
   }),
@@ -24,6 +41,12 @@ export default Ember.Component.extend({
   },
 
   didInsertElement(){
-    this.renderChart();
+    setTimeout(() => {
+      this.processWidth();
+      this.processHeight();
+    });
+    setTimeout(() => {
+      this.renderChart();
+    }, 1000);
   }
 });
