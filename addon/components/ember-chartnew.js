@@ -14,16 +14,15 @@ export default Ember.Component.extend({
     if(this.get('width')){
       this.set('processedWidth', this.get('width'));
     }
+    // this.get('element').style.width = this.get('element').parentNode.clientWidth + 'px';
     this.set('processedWidth', this.get('element').clientWidth);
   },
 
   processHeight(){
     if(this.get('height')){
-      console.log(1);
       this.set('processedHeight', this.get('height'));
     }
-    console.log(this.get('element'));
-    this.get('element').style.height = this.get('element').parentNode.clientHeight + 'px';
+    // this.get('element').style.height = this.get('element').parentNode.clientHeight + 'px';
     this.set('processedHeight', this.get('element').clientHeight);
   },
 
@@ -31,21 +30,44 @@ export default Ember.Component.extend({
     this.renderChart();
   }),
 
+  renderChartOnce(){
+    Ember.run.once(this, this.renderChart);
+  },
+
   renderChart(){
-    let context = this.get('element').childNodes[0].getContext("2d")
-    let chartType = Ember.String.classify(this.get('type'));
-    let data = this.get('data');
-    let options = Ember.merge(this.get('defaultOptions'), this.get('options'))
-    new Chart(context)[chartType](data, options);
+      this.processHeight();
+      this.processWidth();
+      setTimeout(() => {
+        console.log('rendering chart');
+        let context = this.get('element').childNodes[0].getContext("2d")
+        let chartType = Ember.String.classify(this.get('type'));
+        let data = this.get('data');
+        let options = Ember.merge(this.get('defaultOptions'), this.get('options'))
+        new Chart(context)[chartType](data, options);
+      });
   },
 
   didInsertElement(){
     setTimeout(() => {
-      this.processWidth();
-      this.processHeight();
-    });
-    setTimeout(() => {
       this.renderChart();
-    }, 1000);
+      let resizeTimer = null;
+      $(window).on('resize', Ember.run.bind(this, () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+
+          this.processHeight();
+          this.processWidth();
+          setTimeout(() => {
+            console.log('rendering chart');
+            let context = this.get('element').childNodes[0].getContext("2d")
+            let chartType = Ember.String.classify(this.get('type'));
+            let data = this.get('data');
+            let options = Ember.merge(this.get('defaultOptions'), this.get('options'))
+            new Chart(context)[chartType](data, options);
+          });
+
+        }, 250);
+      }));
+    });
   }
 });
