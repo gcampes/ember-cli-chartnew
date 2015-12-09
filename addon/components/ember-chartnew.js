@@ -5,7 +5,6 @@ export default Ember.Component.extend({
 
   defaultOptions: {
     animationSteps: 30,
-    graphTitle: "Title",
     inGraphDataShow: true,
     annotateDisplay: true,
     graphTitleFontSize: 18
