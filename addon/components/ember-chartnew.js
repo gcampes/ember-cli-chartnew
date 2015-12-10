@@ -30,44 +30,23 @@ export default Ember.Component.extend({
     this.renderChart();
   }),
 
-  renderChartOnce(){
-    Ember.run.once(this, this.renderChart);
-  },
-
   renderChart(){
-      this.processHeight();
-      this.processWidth();
-      setTimeout(() => {
-        console.log('rendering chart');
-        let context = this.get('element').childNodes[0].getContext("2d")
-        let chartType = Ember.String.classify(this.get('type'));
-        let data = this.get('data');
-        let options = Ember.merge(this.get('defaultOptions'), this.get('options'))
-        new Chart(context)[chartType](data, options);
-      });
+      let context = this.get('element').childNodes[0].getContext("2d");
+      let chartType = Ember.String.classify(this.get('type'));
+      let data = this.get('data');
+      let options = Ember.merge(this.get('defaultOptions'), this.get('options'))
+
+      if(this.get('noAnimations')){
+        this.set('options.animationSteps', 0);
+      }
+      new Chart(context)[chartType](data, options);
+
   },
 
   didInsertElement(){
     setTimeout(() => {
       this.renderChart();
-      let resizeTimer = null;
-      $(window).on('resize', Ember.run.bind(this, () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-
-          this.processHeight();
-          this.processWidth();
-          setTimeout(() => {
-            console.log('rendering chart');
-            let context = this.get('element').childNodes[0].getContext("2d")
-            let chartType = Ember.String.classify(this.get('type'));
-            let data = this.get('data');
-            let options = Ember.merge(this.get('defaultOptions'), this.get('options'))
-            new Chart(context)[chartType](data, options);
-          });
-
-        }, 250);
-      }));
+      this.set('noAnimations', true);
     });
   }
 });
