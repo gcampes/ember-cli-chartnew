@@ -15,7 +15,7 @@ export default Ember.Component.extend({
       this.set('processedWidth', this.get('width'));
     }
     // this.get('element').style.width = this.get('element').parentNode.clientWidth + 'px';
-    this.set('processedWidth', this.get('element').clientWidth);
+    this.set('processedWidth', this.get('element').clientWidth - 10);
   },
 
   processHeight(){
